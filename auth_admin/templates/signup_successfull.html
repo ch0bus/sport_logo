@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+<h2>{{ the_title }}</h2>
+
+
+<table>
+<p>Welcome, {{ the_user_name }}:</p>
+<tr><td>Your email:</td><td>{{ the_user_email }}</td></tr>
+<tr><td>Your password:</td><td>{{ the_user_passwd }}</td></tr>
+</table>
+<p>When you're ready, click this button:</p>
+<p><input value='Do it!' type='SUBMIT'></p>
+
+
+{% endblock %}

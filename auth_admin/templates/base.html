@@ -1,0 +1,69 @@
+<!doctype html>
+<html>
+    <head>
+      {%block head%}
+      {%endblock%}
+        <title>{{ the_title }}</title>
+        
+        <link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/navbars/">
+        <link href="static/bootstrap.min.css" rel="stylesheet">     
+        <link rel="stylesheet" href="static/hf.css" />
+        <style>
+            .bd-placeholder-img {
+              font-size: 1.125rem;
+              text-anchor: middle;
+              -webkit-user-select: none;
+              -moz-user-select: none;
+              -ms-user-select: none;
+              user-select: none;
+            }
+      
+            @media (min-width: 768px) {
+              .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+              }
+            }
+          </style>
+          <!-- Custom styles for this template -->
+          <link href="static/navbar.css" rel="stylesheet">   
+          
+    </head>
+    <body>
+        <nav class="navbar navbar-dark bg-dark">
+            <a class="navbar-brand" href="/entry">VSearch</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample01" aria-controls="navbarsExample01" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+          
+            <div class="collapse navbar-collapse" id="navbarsExample01">
+              <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                  <a class="nav-link" href="/entry">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/contactus">Contact Us</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                </li>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="/admin" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin</a>
+                  <div class="dropdown-menu" aria-labelledby="dropdown01">
+                    <a class="dropdown-item" href="/signin">Sign in</a>
+                    <a class="dropdown-item" href="/signup">Sign up</a>
+                    <a class="dropdown-item" href="/entry">Log out</a>
+                  </div>
+                </li>
+              </ul>
+              <form class="form-inline my-2 my-md-0">
+                <input class="form-control" type="text" placeholder="Search" aria-label="Search">
+              </form>
+            </div>
+          </nav>
+        {% block body %}
+
+        {% endblock %}
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+      <script>window.jQuery || document.write('<script src="static/jquery.slim.min.js"><\/script>')</script><script src="static/bootstrap.bundle.min.js"></script>
+    </body>
+</html>
