@@ -2,10 +2,34 @@
 {% block body %}
 
 {{ the_title }}
-<h2>Welcome back, {{ the_name_user }}</h2>
-<p>{{nameU}}</p>
-<br>
-<p>{{passwdU}}</p>
+<h2>Welcome back, {{ nameU }}</h2>
+<h3>Total item: {{ num_item }}</h3>
+
+<section class="vh-100 gradient-custom">
+    <div class="container py-5 h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        
+          <div class="card bg-dark text-white" style="border-radius: 1rem;">
+            <div class="card-body p-5 text-center">
+            
+            <form method='POST' action='/add_item'>
+                <label for="add_item">Name Item:</label><br>
+                <input type="text" id="add_item" name="add_item"><br>
+                <label for="desc_item">Description:</label><br>
+                <input type="text" id="desc_item" name="desc_item"><br><br>
+                <label for="coast_item">Coast:</label><br>
+                <input type="text" id="coast" name="coast_item"><br><br>
+                
+                <input type="submit" value="Submit">
+                <input type="reset">
+            </form>
+              
+            </div>
+          </div>
+        
+      </div>
+    </div>
+  </section>
 
 
 {% endblock %}

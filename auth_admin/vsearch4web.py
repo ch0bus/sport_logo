@@ -4,6 +4,15 @@ from vsearch import search4letters
 
 from DBcm import UseDatabase
 
+
+list_album_item=[]
+class AlbumItem:
+    def __init__(self,name,desc,coast):
+        self.name=name
+        self.desc=desc
+        self.coast=coast
+
+
 app = Flask(__name__)
 
 app.config['dbconfig'] = {'host': '127.0.0.1',
@@ -172,6 +181,45 @@ def logout() -> 'html':
     """Display the contents of the log file as a HTML table."""    
     titles = ('$user@root')
     return render_template('entry.html')
+
+
+@app.route('/album')
+def album() -> 'html':
+    """Display the contents of the log file as a HTML table."""
+    with UseDatabase(app.config['dbconfig']) as cursor:        
+        cursor.execute("select name from items")
+        name_item = cursor.fetchall()
+    with UseDatabase(app.config['dbconfig']) as cursor:        
+        cursor.execute("select features from items")
+        desc_item = cursor.fetchall()
+    with UseDatabase(app.config['dbconfig']) as cursor:        
+        cursor.execute("select coast from items")
+        coast_item = cursor.fetchall()
+    
+    return render_template('album.html',list_item_total=list_album_item)
+
+
+@app.route('/add_item', methods=['POST'])
+def add_item() -> 'html':
+    name_item = request.form['add_item']
+    desc_item = request.form['desc_item']
+    coast_item = request.form['coast_item']
+    with UseDatabase(app.config['dbconfig']) as cursor:
+        _SQL = """insert into items
+                  (name, features, coast)
+                  values
+                  (%s, %s, %s)"""
+        cursor.execute(_SQL, (request.form['add_item'],
+                              request.form['desc_item'],
+                              request.form['coast_item']                              
+                              ))
+    
+    new_item=AlbumItem(name_item,desc_item,coast_item)
+    list_album_item.append(new_item)
+    
+    return render_template('admin.html', num_item=len(list_album_item))
+
+
 
 
 if __name__ == '__main__':
