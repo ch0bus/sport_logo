@@ -1,19 +1,27 @@
+import os
 from tabnanny import check
 from flask import Flask, render_template, request, escape
 from vsearch import search4letters
+from werkzeug.utils import secure_filename
 
 from DBcm import UseDatabase
 
 
 list_album_item=[]
+list_album_item_exists=[]
 class AlbumItem:
     def __init__(self,name,desc,coast):
         self.name=name
         self.desc=desc
         self.coast=coast
 
+UPLOAD_FOLDER = 'auth_admin/static/img'
+
 
 app = Flask(__name__)
+
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
 
 app.config['dbconfig'] = {'host': '127.0.0.1',
                           'user': 'vsearch',
@@ -183,9 +191,15 @@ def logout() -> 'html':
     return render_template('entry.html')
 
 
+@app.route('/order')
+def order_page() -> 'html':
+    """Display the contents of the log file as a HTML table."""        
+    return render_template('order.html')
+
+
 @app.route('/album')
 def album() -> 'html':
-    """Display the contents of the log file as a HTML table."""
+    """
     with UseDatabase(app.config['dbconfig']) as cursor:        
         cursor.execute("select name from items")
         name_item = cursor.fetchall()
@@ -196,6 +210,29 @@ def album() -> 'html':
         cursor.execute("select coast from items")
         coast_item = cursor.fetchall()
     
+    with UseDatabase(app.config['dbconfig']) as cursor:        
+        cursor.execute("select id from items where id=(select max(id) from items)")
+        id_item = cursor.fetchall()        
+    with UseDatabase(app.config['dbconfig']) as cursor:                        
+        cursor.execute("select name from items")
+        old_name = cursor.fetchall()
+    with UseDatabase(app.config['dbconfig']) as cursor:                        
+        cursor.execute("select features from items")
+        old_desc = cursor.fetchall()
+    with UseDatabase(app.config['dbconfig']) as cursor:                        
+        cursor.execute("select coast from items")
+        old_coast = cursor.fetchall()
+    
+    n=id_item
+    while(n!=0):        
+        exist_name=old_name[n]
+        exist_desc=old_desc[n]
+        exist_coast=old_coast[n]
+        old_item=AlbumItem(exist_name,exist_desc,exist_coast)
+        n=-1
+    
+    list_album_item.append(old_item)
+    """
     return render_template('album.html',list_item_total=list_album_item)
 
 
@@ -220,6 +257,13 @@ def add_item() -> 'html':
     return render_template('admin.html', num_item=len(list_album_item))
 
 
+@app.route('/upload', methods = ['POST', 'GET'])
+def upload():
+    if request.method == 'POST':
+        f = request.files['File']
+        filename = secure_filename(f.filename)
+        f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        return "File saved successfully"
 
 
 if __name__ == '__main__':
