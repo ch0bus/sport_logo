@@ -15,7 +15,8 @@ class AlbumItem:
         self.desc=desc
         self.coast=coast
 
-UPLOAD_FOLDER = 'auth_admin/static/img'
+#UPLOAD_FOLDER = 'auth_admin/static/img'
+UPLOAD_FOLDER = 'auth_admin/static/imgsource'
 
 
 app = Flask(__name__)
@@ -241,6 +242,11 @@ def add_item() -> 'html':
     name_item = request.form['add_item']
     desc_item = request.form['desc_item']
     coast_item = request.form['coast_item']
+    
+    f = request.files['File']
+    filename = secure_filename(f.filename)
+    f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+    
     with UseDatabase(app.config['dbconfig']) as cursor:
         _SQL = """insert into items
                   (name, features, coast)
@@ -254,7 +260,10 @@ def add_item() -> 'html':
     new_item=AlbumItem(name_item,desc_item,coast_item)
     list_album_item.append(new_item)
     
-    return render_template('admin.html', num_item=len(list_album_item))
+    return render_template('admin.html', 
+                                num_item=len(list_album_item),
+                                emblema="imgsource/"+filename
+                                )
 
 
 @app.route('/upload', methods = ['POST', 'GET'])
@@ -263,7 +272,8 @@ def upload():
         f = request.files['File']
         filename = secure_filename(f.filename)
         f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        return "File saved successfully"
+        #"File saved successfully"
+        return render_template('order.html', emblema=r"img/"+filename)
 
 
 if __name__ == '__main__':

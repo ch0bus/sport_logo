@@ -22,7 +22,7 @@
                     
                     <form action = "/upload" method = "POST" enctype = "multipart/form-data">
                         <input type = "file" name = "File" />
-                        <input type = "submit" value = "Submit" />
+                        <input type = "submit" value = "add" />
                     </form>
                     
                     <form action = "/get_order" method = "POST">
@@ -48,8 +48,10 @@
                     </select>
                 </div>
                 
-                <div style="float:right">
-                    <img src='#' style="width:250px; height:250px">
+
+                
+                <div style="width: 100px; height: 100px; float:right">
+                  <img src="{{ url_for('static', filename=emblema) }}" alt="no picture">
                 </div>
 
                 

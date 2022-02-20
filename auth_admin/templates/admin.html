@@ -4,6 +4,11 @@
 {{ the_title }}
 <h2>Welcome back, {{ nameU }}</h2>
 <h3>Total item: {{ num_item }}</h3>
+<table>
+  <tr>
+    <td>Image</td><td>Name</td><td>Desc</td><td>Coast</td>
+  </tr>
+</table>
 
 <section class="vh-100 gradient-custom">
     <div class="container py-5 h-100">
@@ -12,7 +17,14 @@
           <div class="card bg-dark text-white" style="border-radius: 1rem;">
             <div class="card-body p-5 text-center">
             
-            <form method='POST' action='/add_item'>
+            <form method='POST' action='/add_item' enctype = "multipart/form-data">
+              
+                <input type = "file" name = "File" />
+                <input type = "submit" value = "add" />
+                <div style="width: 100px; height: 100px; float:right">
+                  <img src="{{ url_for('static', filename=emblema) }}" alt="no picture">
+                </div>
+            
                 <label for="add_item">Name Item:</label><br>
                 <input type="text" id="add_item" name="add_item"><br>
                 <label for="desc_item">Description:</label><br>
